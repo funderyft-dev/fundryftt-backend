@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DealsModule } from './main/deals/deals.module';
 import { AdminModule } from './admin/admin.module';
+import { InvestorsModule } from './admin/investors/investors.module';
 
 @Module({
   imports: [
@@ -18,7 +18,7 @@ import { AdminModule } from './admin/admin.module';
       }),
       inject: [ConfigService],
     }),
-    AuthModule,
+    InvestorsModule,
     DealsModule,
     AdminModule,
   ],

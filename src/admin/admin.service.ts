@@ -1,68 +1,62 @@
-import {
-  Injectable,
-  ConflictException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Investor, InvestorDocument } from './schema/investor.schema';
-import { CreateInvestorDto } from './dto/create-investor.dto';
+import { Investor } from './schema/investor.schema';
+import { Deal } from '../main/deals/schemas/deal.schema';
 
 @Injectable()
-export class InvestorsService {
+export class AdminService {
   constructor(
-    @InjectModel(Investor.name) private investorModel: Model<InvestorDocument>,
+    @InjectModel(Investor.name) private investorModel: Model<Investor>,
+    @InjectModel(Deal.name) private dealModel: Model<Deal>,
   ) {}
 
-  async create(createInvestorDto: CreateInvestorDto): Promise<Investor> {
-    // Check if investor with email already exists
-    const existingInvestor = await this.investorModel.findOne({
-      email: createInvestorDto.email,
-    });
+  // Dashboard methods
+  async getDashboardData() {
+    const [investors, deals, stats] = await Promise.all([
+      this.investorModel.find().sort({ created_at: -1 }).limit(5).exec(),
+      this.dealModel.find().sort({ createdAt: -1 }).limit(5).exec(),
+      this.getStats(),
+    ]);
 
-    if (existingInvestor) {
-      throw new ConflictException('Investor with this email already exists');
-    }
-
-    const createdInvestor = new this.investorModel(createInvestorDto);
-    return await createdInvestor.save();
+    return {
+      investors,
+      deals,
+      stats,
+    };
   }
 
-  async findAll(): Promise<Investor[]> {
-    return this.investorModel.find().sort({ created_at: -1 }).exec();
+  async getStats() {
+    const [totalInvestors, activeInvestors, totalDeals, pendingDeals] =
+      await Promise.all([
+        this.investorModel.countDocuments().exec(),
+        this.investorModel.countDocuments({ status: 'Active' }).exec(),
+        this.dealModel.countDocuments().exec(),
+        this.dealModel.countDocuments({ status: 'pending' }).exec(),
+      ]);
+
+    return {
+      totalInvestors,
+      activeInvestors,
+      totalDeals,
+      pendingDeals,
+    };
   }
 
-  async findOne(id: string): Promise<Investor> {
-    const investor = await this.investorModel.findById(id).exec();
-    if (!investor) {
-      throw new NotFoundException(`Investor with ID ${id} not found`);
-    }
-    return investor;
+  // Deal methods
+  async getAllDeals(): Promise<Deal[]> {
+    return this.dealModel.find().sort({ createdAt: -1 }).exec();
   }
 
-  async update(
-    id: string,
-    updateInvestorDto: Partial<CreateInvestorDto>,
-  ): Promise<Investor> {
-    const updatedInvestor = await this.investorModel
-      .findByIdAndUpdate(id, updateInvestorDto, { new: true })
+  async updateDealStatus(id: string, status: string): Promise<Deal> {
+    const updatedDeal = await this.dealModel
+      .findByIdAndUpdate(id, { status }, { new: true })
       .exec();
 
-    if (!updatedInvestor) {
-      throw new NotFoundException(`Investor with ID ${id} not found`);
+    if (!updatedDeal) {
+      throw new NotFoundException(`Deal with ID ${id} not found`);
     }
 
-    return updatedInvestor;
-  }
-
-  async remove(id: string): Promise<void> {
-    const result = await this.investorModel.findByIdAndDelete(id).exec();
-    if (!result) {
-      throw new NotFoundException(`Investor with ID ${id} not found`);
-    }
-  }
-
-  async findByStatus(status: string): Promise<Investor[]> {
-    return this.investorModel.find({ status }).sort({ created_at: -1 }).exec();
+    return updatedDeal;
   }
 }
