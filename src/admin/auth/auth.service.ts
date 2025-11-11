@@ -26,13 +26,11 @@ export class AdminAuthService {
 
   // Simulate email service
   private async sendOtpEmail(email: string, otp: string): Promise<void> {
-    console.log(`OTP for ${email}: ${otp}`);
     await this.mailerService.adminSignIn(email, otp);
   }
 
   async requestOtp(requestOtpDto: RequestOtpDto): Promise<{ message: string }> {
     const { email } = requestOtpDto;
-    console.log(email);
 
     // Check if admin exists
     const admin = await this.adminModel.findOne({ email });

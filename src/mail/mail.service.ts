@@ -27,16 +27,16 @@ export class MailerService {
     });
   }
 
-  async sendResetCodeEmail(email: string, code: string): Promise<void> {
+  async dealRecieved(email: string): Promise<void> {
     await this.transporter.sendMail({
-      from: 'Your App <noreply@yourapp.com>',
+      from: 'Fundryft Admin <noreply@yourapp.com>',
       to: email,
-      subject: 'Your Password Reset Code',
+      subject: 'Added to the access waitlist',
       html: `
-        <h1>Password Reset Code</h1>
-        <p>Your verification code is: <strong>${code}</strong></p>
-        <p>This code will expire in 15 minutes.</p>
-        <p>If you didn't request this, please ignore this email.</p>
+        <h1>Fundryft Successfully recieved your request</h1>
+        <p>Hi!!! we recieved your request to have access to investors, please note that our team are reviewing your request as we speak and you'd be reached out to as soon as possible </p>
+       <Br/>
+        <p>Please keep your head up as you'd hear from us shortly. Thanks and stay in touch</p>
       `,
     });
   }

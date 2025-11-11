@@ -5,6 +5,7 @@ import { DealsModule } from './main/deals/deals.module';
 import { AdminModule } from './admin/admin.module';
 import { InvestorsModule } from './admin/investors/investors.module';
 import { NotesModule } from './admin/notes/notes.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { NotesModule } from './admin/notes/notes.module';
     DealsModule,
     AdminModule,
     NotesModule,
+    CloudinaryModule,
   ],
 })
 export class AppModule {}
