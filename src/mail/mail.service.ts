@@ -13,7 +13,7 @@ export class MailerService {
       service: 'Gmail',
       auth: {
         user: this.configService.get<string>('MAIL_USER'),
-        pass: this.configService.get<string>('MAIL_PASS'), //ramz psal zrmd pkbf
+        pass: this.configService.get<string>('MAIL_PASS'),
       },
     });
   }
@@ -27,9 +27,18 @@ export class MailerService {
     });
   }
 
+  async adminCreated(name: string, email: string): Promise<void> {
+    await this.transporter.sendMail({
+      from: 'Fundryft Admin <noreply@fundryfit.com>',
+      to: email,
+      subject: 'Made an admin',
+      html: `<h2>Hey ${name} fundryft just made you an admin</h2>`,
+    });
+  }
+
   async dealRecieved(email: string): Promise<void> {
     await this.transporter.sendMail({
-      from: 'Fundryft Admin <noreply@yourapp.com>',
+      from: 'Fundryft <noreply@yourapp.com>',
       to: email,
       subject: 'Added to the access waitlist',
       html: `

@@ -7,11 +7,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Admin, AdminDocument } from './schema/admin.schema';
 import { CreateAdminDto } from './dto/create-admin.dto';
+import { MailerService } from 'src/mail/mail.service';
 
 @Injectable()
 export class AdminService {
   constructor(
     @InjectModel(Admin.name) private adminModel: Model<AdminDocument>,
+    private mailerService: MailerService,
   ) {}
 
   async createAdmin(createAdminDto: CreateAdminDto): Promise<Admin> {
@@ -27,6 +29,10 @@ export class AdminService {
     }
 
     const createdAdmin = new this.adminModel(createAdminDto);
+    await this.mailerService.adminCreated(
+      createAdminDto.name,
+      createAdminDto.email,
+    );
     return createdAdmin.save();
   }
 

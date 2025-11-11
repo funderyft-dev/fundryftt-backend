@@ -6,6 +6,8 @@ import { AdminModule } from './admin/admin.module';
 import { InvestorsModule } from './admin/investors/investors.module';
 import { NotesModule } from './admin/notes/notes.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { ServiceController } from './investor/investor.controller';
+import { ControllerController } from './investor/investor.service';
 
 @Module({
   imports: [
@@ -26,5 +28,6 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     NotesModule,
     CloudinaryModule,
   ],
+  controllers: [ServiceController, ControllerController],
 })
 export class AppModule {}
