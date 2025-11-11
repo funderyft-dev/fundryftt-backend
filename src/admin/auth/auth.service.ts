@@ -91,8 +91,8 @@ export class AdminAuthService {
     }
 
     // OTP is valid - clear OTP data and mark as verified
-    admin.otp = null;
-    admin.otpExpires = null;
+    admin.otp = '';
+    admin.otpExpires = new Date(Date.now());
     admin.otpAttempts = 0;
     admin.isVerified = true;
     await admin.save();

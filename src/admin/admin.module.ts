@@ -4,8 +4,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
-import { Investor, InvestorSchema } from './schema/investor.schema';
-import { Deal, DealSchema } from '../main/deals/schemas/deal.schema';
 import { Admin, AdminSchema } from './schema/admin.schema';
 import { AdminAuthService } from './auth/auth.service';
 import { AdminAuthController } from './auth/auth.controller';
@@ -13,14 +11,12 @@ import { MailerService } from 'src/mail/mail.service';
 import { InvestorsModule } from './investors/investors.module';
 import { JwtStrategy } from './auth/jwt.strategy'; // Add this import
 import { DealsModule } from './deals/deals.module';
+import { NotesModule } from './notes/notes.module';
+import { PortfoliosModule } from './portfolios/portfolios.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: Investor.name, schema: InvestorSchema },
-      { name: Deal.name, schema: DealSchema },
-      { name: Admin.name, schema: AdminSchema },
-    ]),
+    MongooseModule.forFeature([{ name: Admin.name, schema: AdminSchema }]),
     PassportModule, // Add PassportModule
     InvestorsModule,
     JwtModule.register({
@@ -28,6 +24,8 @@ import { DealsModule } from './deals/deals.module';
       signOptions: { expiresIn: '24h' },
     }),
     DealsModule,
+    NotesModule,
+    PortfoliosModule,
   ],
   controllers: [AdminController, AdminAuthController],
   providers: [

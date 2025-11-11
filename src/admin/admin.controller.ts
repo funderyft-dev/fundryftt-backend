@@ -1,32 +1,52 @@
-import { Body, Controller, Get, Param, Put, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+  UseGuards,
+  Query,
+} from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { AdminGuard } from './common/guards/admin.guards';
+import { CreateAdminDto } from './dto/create-admin.dto';
 
 @Controller('admin')
 @UseGuards(JwtAuthGuard, AdminGuard)
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
-  // Dashboard routes
-  @Get('dashboard')
-  getDashboard() {
-    return this.adminService.getDashboardData();
+  @Post()
+  createAdmin(@Body() createAdminDto: CreateAdminDto) {
+    return this.adminService.createAdmin(createAdminDto);
+  }
+
+  @Get()
+  getAdmins(@Query('status') status?: string, @Query('role') role?: string) {
+    if (status) {
+      return this.adminService.getAdminsByStatus(status);
+    }
+    if (role) {
+      return this.adminService.getAdminsByRole(role);
+    }
+    return this.adminService.getAllAdmins();
   }
 
   @Get('stats')
-  getStats() {
-    return this.adminService.getStats();
+  getAdminsStats() {
+    return this.adminService.getAdminsStats();
   }
 
-  // Deal routes (for managing deals from main website)
-  @Get('deals')
-  getDeals() {
-    return this.adminService.getAllDeals();
+  @Get(':id')
+  getAdmin(@Param('id') id: string) {
+    return this.adminService.getAdminById(id);
   }
 
-  @Put('deals/:id/status')
-  updateDealStatus(@Param('id') id: string, @Body('status') status: string) {
-    return this.adminService.updateDealStatus(id, status);
+  @Delete(':id')
+  deleteAdmin(@Param('id') id: string) {
+    return this.adminService.deleteAdmin(id);
   }
 }

@@ -1,28 +1,42 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+export type AdminDocument = Admin & Document;
+
 @Schema({ timestamps: true })
-export class Admin extends Document {
+export class Admin {
   @Prop({ required: true, unique: true })
   email: string;
+
+  @Prop({ required: true })
+  name: string;
+
+  @Prop({ default: 'sub' })
+  role: string; // super, sub
+
+  @Prop({ default: 'active' })
+  status: string; // active, inactive
 
   @Prop({ default: false })
   isVerified: boolean;
 
-  @Prop({ type: String, default: null })
-  otp: string | null;
+  @Prop()
+  otp: string;
 
-  @Prop({ type: Date, default: null })
-  otpExpires: Date | null;
-
-  @Prop({ default: 'admin' })
-  role: string;
+  @Prop()
+  otpExpires: Date;
 
   @Prop({ default: 0 })
   otpAttempts: number;
 
-  @Prop({ type: Date, default: null })
-  lastOtpSent: Date | null;
+  @Prop()
+  lastOtpSent: Date;
+
+  @Prop({ default: Date.now })
+  createdAt: Date;
+
+  @Prop({ default: Date.now })
+  updatedAt: Date;
 }
 
 export const AdminSchema = SchemaFactory.createForClass(Admin);

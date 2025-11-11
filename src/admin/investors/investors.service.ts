@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Investor } from '../schema/investor.schema';
+import { Investor } from './schema/investor.schema';
 import { CreateInvestorDto } from './dto/create-investor.dto';
 
 @Injectable()

@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { InvestorsService } from './investors.service';
 import { JwtAuthGuard } from '../../admin/auth/guards/jwt-auth.guard'; // Fixed import path
-import { AdminGuard } from '../common/guards/admin.guards'; 
+import { AdminGuard } from '../common/guards/admin.guards';
 import { CreateInvestorDto } from './dto/create-investor.dto';
 
 @Controller('investors')
