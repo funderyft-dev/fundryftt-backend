@@ -7,11 +7,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Investor } from './schema/investor.schema';
 import { CreateInvestorDto } from './dto/create-investor.dto';
+import { MailerService } from 'src/mail/mail.service';
 
 @Injectable()
 export class InvestorsService {
   constructor(
     @InjectModel(Investor.name) private investorModel: Model<Investor>,
+    private mailerService: MailerService,
   ) {}
 
   async createInvestor(
@@ -26,6 +28,7 @@ export class InvestorsService {
     }
 
     const createdInvestor = new this.investorModel(createInvestorDto);
+     await this.mailerService.investorCerated(createInvestorDto.email);
     return await createdInvestor.save();
   }
 

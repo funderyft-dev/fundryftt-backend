@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { InvestorsController } from './investors.controller';
 import { InvestorsService } from './investors.service';
 import { Investor, InvestorSchema } from '../investors/schema/investor.schema';
+import { MailerService } from 'src/mail/mail.service';
 
 @Module({
   imports: [
@@ -11,7 +12,7 @@ import { Investor, InvestorSchema } from '../investors/schema/investor.schema';
     ]),
   ],
   controllers: [InvestorsController],
-  providers: [InvestorsService],
+  providers: [InvestorsService, MailerService],
   exports: [InvestorsService],
 })
 export class InvestorsModule {}

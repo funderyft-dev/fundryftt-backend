@@ -40,23 +40,6 @@ export class AdminService {
     return this.adminModel.find().sort({ createdAt: -1 }).exec();
   }
 
-  async getAdminById(id: string): Promise<Admin> {
-    const admin = await this.adminModel.findById(id).exec();
-
-    if (!admin) {
-      throw new NotFoundException(`Admin with ID ${id} not found`);
-    }
-    return admin;
-  }
-
-  async getAdminByEmail(email: string): Promise<Admin> {
-    const admin = await this.adminModel.findOne({ email }).exec();
-    if (!admin) {
-      throw new NotFoundException(`Admin with email ${email} not found`);
-    }
-    return admin;
-  }
-
   async deleteAdmin(id: string): Promise<Admin> {
     const deletedAdmin = await this.adminModel.findByIdAndDelete(id).exec();
 

@@ -40,10 +40,7 @@ export class AdminController {
     return this.adminService.getAdminsStats();
   }
 
-  @Get(':id')
-  getAdmin(@Param('id') id: string) {
-    return this.adminService.getAdminById(id);
-  }
+
 
   @Delete(':id')
   deleteAdmin(@Param('id') id: string) {

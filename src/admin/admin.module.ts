@@ -9,7 +9,7 @@ import { AdminAuthService } from './auth/auth.service';
 import { AdminAuthController } from './auth/auth.controller';
 import { MailerService } from 'src/mail/mail.service';
 import { InvestorsModule } from './investors/investors.module';
-import { JwtStrategy } from './auth/jwt.strategy'; // Add this import
+import { JwtStrategy } from './auth/jwt.strategy';
 import { DealsModule } from './deals/deals.module';
 import { NotesModule } from './notes/notes.module';
 import { PortfoliosModule } from './portfolios/portfolios.module';

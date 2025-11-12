@@ -36,6 +36,20 @@ export class MailerService {
     });
   }
 
+  async investorCerated(email: string): Promise<void> {
+    await this.transporter.sendMail({
+      from: 'Fundryft <noreply@yourapp.com>',
+      to: email,
+      subject: 'Added to fundryft investors',
+      html: `
+        <h1>Fundryft Successfully add you to thier investors</h1>
+        <p>Hi!!! we glad to inform you that have access to deals, to invest in</p>
+       <Br/>
+        <p>Please keep your head up as you'd hear from us shortly. Thanks and stay in touch</p>
+      `,
+    });
+  }
+
   async dealRecieved(email: string): Promise<void> {
     await this.transporter.sendMail({
       from: 'Fundryft <noreply@yourapp.com>',
