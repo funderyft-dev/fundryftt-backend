@@ -13,7 +13,7 @@ import { Type } from 'class-transformer';
 
 export class UpdateDealDto {
   @IsOptional()
-  @IsEnum(['pending', 'approved', 'rejected'])
+  @IsEnum(['pending', 'approved', 'rejected', 'completed'])
   status?: string;
 
   @IsOptional()
@@ -25,6 +25,39 @@ export class UpdateDealDto {
   @IsDate()
   @Type(() => Date)
   deadline?: Date;
+
+  @IsOptional()
+  @IsUrl()
+  dealDocument?: string;
+
+  // NEW FIELDS
+  @IsOptional()
+  @IsEnum(['seed', 'pre-seed', 'series A', 'series B', 'series C', 'other'])
+  round?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  totalRoundRaise?: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  allocation?: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  capitalCall?: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  valuation?: number;
+
+  @IsOptional()
+  @IsUrl()
+  financialModel?: string;
 
   @IsOptional()
   @IsString()
@@ -73,7 +106,7 @@ export class UpdateDealDto {
 
   @IsOptional()
   @IsUrl()
-  demoLink?: string;
+  websiteLink?: string;
 
   @IsOptional()
   @IsUrl()

@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Deal, DealDocument } from './schema/deal.schema';
+import { InjectModel } from '@nestjs/mongoose';
 import { CreateDealDto } from './dto/create-deal.dto';
 import { UpdateDealDto } from './dto/create-update.dto';
+import { Deal, DealDocument } from './schema/deal.schema';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class DealsService {

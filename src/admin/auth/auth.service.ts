@@ -3,12 +3,12 @@ import {
   BadRequestException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Admin } from '../schema/admin.schema';
 import { JwtService } from '@nestjs/jwt';
-import { RequestOtpDto } from './dto/request-otp.dto';
+import { Admin } from '../schema/admin.schema';
+import { InjectModel } from '@nestjs/mongoose';
 import { VerifyOtpDto } from './dto/verify-otp.dto';
+import { RequestOtpDto } from './dto/request-otp.dto';
 import { MailerService } from 'src/mail/mail.service';
 
 @Injectable()
@@ -60,7 +60,7 @@ export class AdminAuthService {
 
   async verifyOtp(
     verifyOtpDto: VerifyOtpDto,
-  ): Promise<{ access_token: string }> {
+  ): Promise<{ admin: { name: string; email: string }; access_token: string }> {
     const { email, otp } = verifyOtpDto;
 
     const admin = await this.adminModel.findOne({ email });
@@ -101,9 +101,14 @@ export class AdminAuthService {
       sub: admin._id,
       role: 'admin',
     };
+    console.log(`login successfull ${admin.name}`);
 
     return {
       access_token: this.jwtService.sign(payload),
+      admin: {
+        name: admin.name,
+        email: admin.email,
+      },
     };
   }
 

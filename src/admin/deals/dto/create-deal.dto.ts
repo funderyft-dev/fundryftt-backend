@@ -55,7 +55,7 @@ export class CreateDealDto {
 
   @IsOptional()
   @IsUrl()
-  demoLink?: string;
+  websiteLink?: string;
 
   @IsOptional()
   @IsUrl()

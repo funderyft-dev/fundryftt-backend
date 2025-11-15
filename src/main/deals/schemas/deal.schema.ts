@@ -36,7 +36,7 @@ export class Deal {
   country: string;
 
   @Prop()
-  demoLink: string;
+  websiteLink: string;
 
   @Prop()
   deckLink: string;

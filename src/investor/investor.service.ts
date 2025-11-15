@@ -13,11 +13,10 @@ import { MailerService } from 'src/mail/mail.service';
 export class InvestorService {
   constructor(
     @InjectModel(Investor.name) private investorModel: Model<InvestorDocument>,
-    @InjectModel(Deal.name) private dealModel: Model<DealDocument>, // Add this
+    @InjectModel(Deal.name) private dealModel: Model<DealDocument>,
     private mailerService: MailerService,
   ) {}
 
-  // Add these methods to fetch deals
   async getAllDeals(): Promise<Deal[]> {
     return this.dealModel
       .find({ status: 'approved' })
@@ -59,5 +58,15 @@ export class InvestorService {
       .sort({ createdAt: -1 })
       .limit(10)
       .exec();
+  }
+
+  // Add method to get deal with reviews stats
+  async getDealWithReviews(id: string): Promise<any> {
+    const deal = await this.getDealById(id);
+    
+    // You can populate this with review stats if needed
+    // This would require importing the ReviewService or making an aggregate query
+    
+    return deal;
   }
 }

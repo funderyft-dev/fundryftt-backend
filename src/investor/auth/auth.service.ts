@@ -68,6 +68,7 @@ export class InvestorAuthService {
 
   async verifyOtp(verifyOtpDto: VerifyOtpDto): Promise<{
     access_token: string;
+    email: string;
   }> {
     const { email, otp } = verifyOtpDto;
 
@@ -118,8 +119,6 @@ export class InvestorAuthService {
 
     const access_token = this.jwtService.sign(payload);
 
-    return {
-      access_token,
-    };
+    return { email: investor.email, access_token };
   }
 }

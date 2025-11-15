@@ -44,7 +44,7 @@ export class CreateDealDto {
   country: string;
 
   @IsUrl()
-  demoLink?: string;
+  websiteLink?: string;
 
   @IsUrl()
   deckLink?: string;

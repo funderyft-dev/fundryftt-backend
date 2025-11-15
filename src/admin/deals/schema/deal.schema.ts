@@ -36,7 +36,7 @@ export class Deal {
   country: string;
 
   @Prop()
-  demoLink: string;
+  websiteLink: string;
 
   @Prop()
   deckLink: string;
@@ -48,7 +48,7 @@ export class Deal {
   companyLogo: string;
 
   @Prop({ default: 'pending' })
-  status: string; // pending, approved, rejected
+  status: string; // pending, approved, rejected, completed
 
   // ADMIN-ONLY FIELDS
   @Prop({ default: null })
@@ -56,6 +56,32 @@ export class Deal {
 
   @Prop({ default: null })
   deadline: Date;
+
+  // ADD PDF UPLOAD FIELD
+  @Prop({ default: null })
+  dealDocument: string; // Cloudinary URL for PDF
+
+  // NEW FIELDS
+  @Prop({
+    enum: ['seed', 'pre-seed', 'series A', 'series B', 'series C', 'other'],
+    default: null,
+  })
+  round: string;
+
+  @Prop({ default: null })
+  totalRoundRaise: number;
+
+  @Prop({ default: null })
+  allocation: number;
+
+  @Prop({ default: null })
+  capitalCall: number;
+
+  @Prop({ default: null })
+  valuation: number;
+
+  @Prop({ default: null })
+  financialModel: string; // Link to financial model
 
   @Prop({ default: Date.now })
   createdAt: Date;
