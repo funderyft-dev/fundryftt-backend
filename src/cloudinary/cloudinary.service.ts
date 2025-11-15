@@ -48,22 +48,15 @@ export class CloudinaryService implements OnModuleInit {
     return new Promise((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
-          resource_type: 'raw', // Use 'raw' for PDF files
+          resource_type: 'raw',
           folder: 'deal-documents',
-          format: 'pdf',
-          access_mode: 'public', // CRITICAL: Make PDFs publicly accessible
-          type: 'upload',
+          access_mode: 'public',
         },
-        (
-          error: UploadApiErrorResponse | undefined,
-          result: UploadApiResponse | undefined,
-        ) => {
+        (error, result) => {
           if (error) {
             reject(new Error(`Cloudinary upload error: ${error.message}`));
           } else if (result) {
-            // For raw files, we need to construct the URL manually
-            const documentUrl = `https://res.cloudinary.com/${this.configService.get('CLOUDINARY_CLOUD_NAME')}/raw/upload/${result.public_id}.pdf`;
-            resolve(documentUrl);
+            resolve(result.secure_url); // This is correct
           } else {
             reject(new Error('Cloudinary upload failed: No result returned'));
           }

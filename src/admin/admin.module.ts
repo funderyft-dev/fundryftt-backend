@@ -13,7 +13,7 @@ import { JwtStrategy } from './auth/jwt.strategy';
 import { DealsModule } from './deals/deals.module';
 import { NotesModule } from './notes/notes.module';
 import { PortfoliosModule } from './portfolios/portfolios.module';
-import { AdminReviewModule } from './review/reviwe.module';
+import { AdminReviewModule } from './review/review.module';
 
 @Module({
   imports: [
