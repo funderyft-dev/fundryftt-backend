@@ -19,7 +19,9 @@ export class InvestorService {
 
   async getAllDeals(): Promise<Deal[]> {
     return this.dealModel
-      .find({ status: 'approved' })
+      .find({
+        $or: [{ status: 'approved' }, { status: 'completed' }],
+      })
       .sort({ createdAt: -1 })
       .exec();
   }
@@ -63,10 +65,10 @@ export class InvestorService {
   // Add method to get deal with reviews stats
   async getDealWithReviews(id: string): Promise<any> {
     const deal = await this.getDealById(id);
-    
+
     // You can populate this with review stats if needed
     // This would require importing the ReviewService or making an aggregate query
-    
+
     return deal;
   }
 }
