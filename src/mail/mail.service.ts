@@ -6,15 +6,35 @@ import { ConfigService } from '@nestjs/config';
 export class MailerService {
   private transporter: nodemailer.Transporter;
 
+  // constructor(private configService: ConfigService) {
+  //   this.transporter = nodemailer.createTransport({
+  //     host: 'smtp.gmail.com',
+  //     port: 465,
+  //     secure: true,
+  //     service: 'Gmail',
+  //     auth: {
+  //       user: this.configService.get<string>('MAIL_USER'),
+  //       pass: this.configService.get<string>('MAIL_PASS'),
+  //     },
+  //   });
+  // }
+
   constructor(private configService: ConfigService) {
     this.transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
-      secure: true,
-      service: 'Gmail',
+      secure: true, // true for port 465
       auth: {
         user: this.configService.get<string>('MAIL_USER'),
         pass: this.configService.get<string>('MAIL_PASS'),
+      },
+      // Add these timeout settings
+      connectionTimeout: 30000, // 30 seconds
+      socketTimeout: 30000, // 30 seconds
+      greetingTimeout: 30000, // 30 seconds
+      // TLS options for Render.com
+      tls: {
+        rejectUnauthorized: false,
       },
     });
   }
