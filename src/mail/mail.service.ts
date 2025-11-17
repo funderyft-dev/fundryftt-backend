@@ -22,17 +22,16 @@ export class MailerService {
   constructor(private configService: ConfigService) {
     this.transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
-      port: 465,
-      secure: true, // true for port 465
+      port: 587,
+      secure: true, //    
       auth: {
         user: this.configService.get<string>('MAIL_USER'),
         pass: this.configService.get<string>('MAIL_PASS'),
       },
-      // Add these timeout settings
-      connectionTimeout: 30000, // 30 seconds
-      socketTimeout: 30000, // 30 seconds
-      greetingTimeout: 30000, // 30 seconds
-      // TLS options for Render.com
+      connectionTimeout: 60000, // Increase to 60 seconds
+      socketTimeout: 60000,
+      greetingTimeout: 30000,
+      requireTLS: true,
       tls: {
         rejectUnauthorized: false,
       },
