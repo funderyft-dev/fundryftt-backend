@@ -6,29 +6,16 @@ import { ConfigService } from '@nestjs/config';
 export class MailerService {
   private transporter: nodemailer.Transporter;
 
-  // constructor(private configService: ConfigService) {
-  //   this.transporter = nodemailer.createTransport({
-  //     host: 'smtp.gmail.com',
-  //     port: 465,
-  //     secure: true,
-  //     service: 'Gmail',
-  //     auth: {
-  //       user: this.configService.get<string>('MAIL_USER'),
-  //       pass: this.configService.get<string>('MAIL_PASS'),
-  //     },
-  //   });
-  // }
-
   constructor(private configService: ConfigService) {
     this.transporter = nodemailer.createTransport({
-      host: 'smtp-relay.brevo.com',
-      port: 587,
-      secure: false,
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      service: 'Gmail',
       auth: {
         user: this.configService.get<string>('MAIL_USER'),
         pass: this.configService.get<string>('MAIL_PASS'),
       },
-      requireTLS: true,
     });
   }
 
