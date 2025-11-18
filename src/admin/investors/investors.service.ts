@@ -28,7 +28,10 @@ export class InvestorsService {
     }
 
     const createdInvestor = new this.investorModel(createInvestorDto);
-     await this.mailerService.investorCerated(createInvestorDto.email);
+    await this.mailerService.investorCreated(
+      createInvestorDto.email,
+      createInvestorDto.name,
+    );
     return await createdInvestor.save();
   }
 

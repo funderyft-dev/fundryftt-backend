@@ -4,6 +4,7 @@ import { DealsService } from './deals.service';
 import { DealsController } from './deals.controller';
 import { Deal, DealSchema } from './schema/deal.schema';
 import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
+import { MailerService } from 'src/mail/mail.service';
 
 @Module({
   imports: [
@@ -11,7 +12,7 @@ import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
     CloudinaryModule, // Make sure CloudinaryModule is imported
   ],
   controllers: [DealsController],
-  providers: [DealsService],
+  providers: [DealsService, MailerService],
   exports: [DealsService],
 })
 export class DealsModule {}

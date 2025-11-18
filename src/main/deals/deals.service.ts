@@ -38,7 +38,7 @@ export class DealsService {
       };
 
       const createdDeal = new this.dealModel(dealData);
-      await this.mailerService.dealRecieved(createDealDto.email);
+      await this.mailerService.dealReceived(createDealDto.email,createDealDto.businessName);
       return await createdDeal.save();
     } catch (error) {
       throw new BadRequestException('Error creating deal: ' + error.message);

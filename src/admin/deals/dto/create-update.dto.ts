@@ -8,6 +8,7 @@ import {
   IsUrl,
   MinLength,
   MaxLength,
+  IsEmail,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -115,4 +116,9 @@ export class UpdateDealDto {
   @IsOptional()
   @IsUrl()
   companyLogo?: string;
+
+  // ADD EMAIL FIELD
+  @IsOptional()
+  @IsEmail()
+  email?: string;
 }
