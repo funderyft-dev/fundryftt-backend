@@ -19,12 +19,12 @@ export class MailerService {
     console.log('========================');
 
     this.transporter = nodemailer.createTransport({
-      host: hostSmtp || 'smtp.gmail.com',
-      port: 587,
+      host: 'smtp.gmail.com',
+      port: 465,
       secure: false,
       auth: {
-        user: mailUser,
-        pass: mailPass,
+        user: 'emmanuelojelade7@gmail.com',
+        pass: 'lzyaqkjjrjggbism',
       },
       tls: {
         rejectUnauthorized: false,
