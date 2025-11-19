@@ -8,6 +8,7 @@ import { NotesModule } from './admin/notes/notes.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { ExtractPortfoliosModule } from './extract/portfolios/portfolios.module';
 import { InvestorModule } from './investor/investor.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { InvestorModule } from './investor/investor.module';
       }),
       inject: [ConfigService],
     }),
+    MailModule,
     InvestorModule,
     ExtractNotesModule,
     ExtractPortfoliosModule,

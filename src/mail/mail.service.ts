@@ -9,30 +9,41 @@ export class MailerService {
 
   constructor(private configService: ConfigService) {
     this.transporter = nodemailer.createTransport({
-      service: 'Gmail',
+      host: this.configService.get<string>('HOST_SMTP'),
+      port: 587,
+      secure: false,
       auth: {
         user: this.configService.get<string>('MAIL_USER'),
         pass: this.configService.get<string>('MAIL_PASS'),
       },
+      tls: {
+        rejectUnauthorised: false,
+      },
+      connectionTimeout: 15000,
+      greetingsTimeout: 15000,
+      socketTimeout: 20000,
+      logger: true,
+      debug: true,
     });
-
-    // Verify connection on startup
+    this.transporter.on('idle', () => {
+      console.log('smtp connection is idle');
+    });
     this.verifyConnection();
   }
 
   private async verifyConnection(): Promise<void> {
     try {
       await this.transporter.verify();
-      this.logger.log('Email transporter verified successfully');
+      console.log('Email transporter verified successfully');
     } catch (error) {
-      this.logger.error('Failed to verify email transporter', error);
+      console.log('Failed to verify email transporter', error);
     }
   }
 
   async adminSignIn(email: string, code: string): Promise<boolean> {
     try {
       await this.transporter.sendMail({
-        from: 'Fundryft Admin <noreply@fundryfit.com>',
+        from: 'Fundryft Admin  <noreply@fundryfit.com>',
         to: email,
         subject: 'Verify its you!',
         html: `<p>Your verification code is: <strong>${code}</strong></p>`,
