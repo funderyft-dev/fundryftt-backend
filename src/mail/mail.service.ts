@@ -8,16 +8,26 @@ export class MailerService {
   private readonly logger = new Logger(MailerService.name);
 
   constructor(private configService: ConfigService) {
+    const hostSmtp = this.configService.get<string>('HOST_SMTP');
+    const mailUser = this.configService.get<string>('MAIL_USER');
+    const mailPass = this.configService.get<string>('MAIL_PASS');
+
+    console.log('=== EMAIL CONFIG DEBUG ===');
+    console.log('HOST_SMTP:', hostSmtp);
+    console.log('MAIL_USER:', mailUser);
+    console.log('MAIL_PASS exists:', !!mailPass);
+    console.log('========================');
+
     this.transporter = nodemailer.createTransport({
-      host: this.configService.get<string>('HOST_SMTP'),
+      host: hostSmtp || 'smtp.gmail.com',
       port: 587,
       secure: false,
       auth: {
-        user: this.configService.get<string>('MAIL_USER'),
-        pass: this.configService.get<string>('MAIL_PASS'),
+        user: mailUser,
+        pass: mailPass,
       },
       tls: {
-        rejectUnauthorised: false,
+        rejectUnauthorized: false,
       },
       connectionTimeout: 15000,
       greetingsTimeout: 15000,
@@ -25,9 +35,11 @@ export class MailerService {
       logger: true,
       debug: true,
     });
+
     this.transporter.on('idle', () => {
       console.log('smtp connection is idle');
     });
+
     this.verifyConnection();
   }
 
@@ -82,7 +94,7 @@ export class MailerService {
   async investorCreated(email: string, name: string): Promise<boolean> {
     try {
       await this.transporter.sendMail({
-        from: 'Fundryft <noreply@fundryfit.com>', // Consistent domain
+        from: 'Fundryft <noreply@fundryfit.com>',
         to: email,
         subject: 'Welcome to Fundryft — Your Investor Account Is Ready',
         html: `
@@ -210,8 +222,7 @@ export class MailerService {
         <p>We encourage you to reapply once outstanding elements have been strengthened. If you would like structured feedback, please contact <a href="mailto:hello@fundryft.com">hello@fundryft.com</a>.</p>
         
         <p>Wishing you continued success,<br/>
-        <strong>Fundryft Team</strong><br/>
-        /p>
+        <strong>Fundryft Team</strong></p>
     `,
       });
       this.logger.log(`Deal received confirmation sent to ${email}`);
